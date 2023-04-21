@@ -123,5 +123,17 @@ function Enemy(x, y) {
   this.speed = 3;
 }
 
+function touchHandler(event) {
+  var touch = event.changedTouches[0];
+  var x = touch.pageX - canvas.offsetLeft;
+  var y = touch.pageY - canvas.offsetTop;
+  
+  if (x > plane.x) {
+    plane.dx = 5;
+  } else {
+    plane.dx = -5;
+  }
+}
+
 // 게임 시작
 gameLoop();
