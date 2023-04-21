@@ -123,15 +123,29 @@ function Enemy(x, y) {
   this.speed = 3;
 }
 
-function touchHandler(event) {
+function touchStartHandler(event) {
   var touch = event.changedTouches[0];
   var x = touch.pageX - canvas.offsetLeft;
   var y = touch.pageY - canvas.offsetTop;
   
-  if (x > plane.x) {
-    plane.dx = 5;
+  if (x < plane.x) {
+    plane.dx = -plane.speed;
   } else {
-    plane.dx = -5;
+    plane.dx = plane.speed;
+  }
+}
+
+function touchMoveHandler(event) {
+  var touch = event.changedTouches[0];
+  var x = touch.pageX - canvas.offsetLeft;
+  var y = touch.pageY - canvas.offsetTop;
+  
+  if (x < plane.x && plane.dx > 0) {
+    plane.dx = -plane.speed;
+  }
+  
+  if (x > plane.x + plane.width && plane.dx < 0) {
+    plane.dx = plane.speed;
   }
 }
 
