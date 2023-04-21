@@ -149,5 +149,9 @@ function touchMoveHandler(event) {
   }
 }
 
+function touchEndHandler(event) {
+  plane.dx = 0;
+}
+
 // 게임 시작
 gameLoop();
