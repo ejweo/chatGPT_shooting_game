@@ -123,35 +123,42 @@ function Enemy(x, y) {
   this.speed = 3;
 }
 
-function touchStartHandler(event) {
-  var touch = event.changedTouches[0];
-  var x = touch.pageX - canvas.offsetLeft;
-  var y = touch.pageY - canvas.offsetTop;
+var isDragging = false;
+var mouseX = 0;
+
+function mouseDownHandler(event) {
+  isDragging = true;
+  mouseX = event.clientX - canvas.offsetLeft;
   
-  if (x < plane.x) {
+  if (mouseX < plane.x) {
     plane.dx = -plane.speed;
   } else {
     plane.dx = plane.speed;
   }
 }
 
-function touchMoveHandler(event) {
-  var touch = event.changedTouches[0];
-  var x = touch.pageX - canvas.offsetLeft;
-  var y = touch.pageY - canvas.offsetTop;
-  
-  if (x < plane.x && plane.dx > 0) {
-    plane.dx = -plane.speed;
-  }
-  
-  if (x > plane.x + plane.width && plane.dx < 0) {
-    plane.dx = plane.speed;
+function mouseMoveHandler(event) {
+  if (isDragging) {
+    var x = event.clientX - canvas.offsetLeft;
+    
+    if (x < plane.x && plane.dx > 0) {
+      plane.dx = -plane.speed;
+    }
+    
+    if (x > plane.x + plane.width && plane.dx < 0) {
+      plane.dx = plane.speed;
+    }
   }
 }
 
-function touchEndHandler(event) {
+function mouseUpHandler(event) {
+  isDragging = false;
   plane.dx = 0;
 }
+
+canvas.onmousedown = mouseDownHandler;
+canvas.onmousemove = mouseMoveHandler;
+canvas.onmouseup = mouseUpHandler;
 
 // 게임 시작
 gameLoop();
